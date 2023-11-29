@@ -236,3 +236,8 @@ sudo xargs rm < install_manifest.txt
 大型的CMake开源软件在编译后会提供可执行文件、头文件和动态库的安装，
 通常安装到/usr/loacl/lib和/usr/local/bin目录中，也可以自定义安装位置，修改变量${CMAKE_INSTALL_PREFIX}，
 像交叉编译时，一般输出到其他地方以供拷贝。
+
+mkdir build install && cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=../install
+make & make install
+cd ../install && tree
