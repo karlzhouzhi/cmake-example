@@ -11,12 +11,12 @@ project (hello_headers)
 # 接下来在生成可执行文件函数add_executable中使用该变量，在多个变量情况下可以在末尾继续添加，
 # 也可以使用file命令file(GLOB SOURCES "src/*.cpp")通过搜索通配符添加，
 # 也可以使用aux_source_directory(src SOURCES)添加
-set(SOURCES
-    src/Hello.cpp
-    src/main.cpp
-)
+# set(SOURCES
+#     src/Hello.cpp
+#     src/main.cpp
+# )
 # file(GLOB SOURCES "src/*.cpp")
-# aux_source_directory(src SOURCES)
+aux_source_directory(src SOURCES)
 
 # Add an executable with the above sources
 add_executable(hello_headers ${SOURCES})
