@@ -7,6 +7,7 @@ project(cmake_examples_install)
 ############################################################
 
 #Generate the shared library from the library sources
+# 生成动态链接库
 add_library(cmake_examples_inst SHARED
     src/Hello.cpp
 )
@@ -26,6 +27,7 @@ add_executable(cmake_examples_inst_bin
 )
 
 # link the new hello_library target with the hello_binary target
+#  使用库
 target_link_libraries( cmake_examples_inst_bin
     PRIVATE 
         cmake_examples_inst
@@ -51,3 +53,20 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
 # Config
 install (FILES cmake-examples.conf
     DESTINATION etc)
+
+
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+
+
+# uninstall target
+if(NOT TARGET uninstall)
+  configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+  add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+endif()
+
