@@ -62,3 +62,6 @@ install_manifest.txt
 
 .tags
 .vscode
+
+/**/bin
+/**/bin.*

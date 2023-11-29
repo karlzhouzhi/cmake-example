@@ -21,3 +21,5 @@ target_include_directories(hello_headers
     PRIVATE 
         ${PROJECT_SOURCE_DIR}/include
 )
+
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
