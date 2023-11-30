@@ -1,24 +1,42 @@
-#include <iostream>
-#include <boost/shared_ptr.hpp>
-#include <boost/filesystem.hpp>
+#include <stdio.h>
+#include <string.h>
+#include <stdint.h>
 
-int main(int argc, char *argv[])
+#include "mbedtls/md.h"
+#include "mbedtls/platform.h"
+
+static void dump_buf(char *info, uint8_t *buf, uint32_t len)
 {
-    std::cout << "Hello Third Party Include!" << std::endl;
-
-    // use a shared ptr
-    boost::shared_ptr<int> isp(new int(4));
-
-    // trivial use of boost filesystem
-    boost::filesystem::path path = "/usr/share/cmake/modules";
-    if(path.is_relative())
-    {
-        std::cout << "Path is relative" << std::endl;
+    mbedtls_printf("%s", info);
+    for (int i = 0; i < len; i++) {
+        mbedtls_printf("%s%02X%s", i % 16 == 0 ? "\n\t":" ", 
+                        buf[i], i == len - 1 ? "\n":"");
     }
-    else
-    {
-        std::cout << "Path is not relative" << std::endl;
-    }
+    mbedtls_printf("\n");
+}
 
-   return 0;
+int main(void)
+{
+    uint8_t digest[32];
+    char *msg = "abc";
+
+    mbedtls_md_context_t ctx;
+    const mbedtls_md_info_t *info;
+
+    mbedtls_md_init(&ctx);
+    info = mbedtls_md_info_from_type(MBEDTLS_MD_SHA256);
+
+    mbedtls_md_setup(&ctx, info, 0);
+    mbedtls_printf("\n  md info setup, name: %s, digest size: %d\n", 
+                   mbedtls_md_get_name(info), mbedtls_md_get_size(info));
+
+    mbedtls_md_starts(&ctx);
+    mbedtls_md_update(&ctx, reinterpret_cast<unsigned char*>(msg), strlen(msg));
+    mbedtls_md_finish(&ctx, digest);
+
+    dump_buf("\n  md sha-256 digest:", digest, sizeof(digest));
+
+    mbedtls_md_free(&ctx); 
+
+    return 0;
 }

@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 
    // only print if compile flag set
 #ifdef EX2
-  std::cout << "Hello Compile Flag EX2!" << std::endl;
+  std::cout << "Hello Compile Flag EX2!" << EX2 << std::endl;
 #endif
 
 #ifdef EX3
