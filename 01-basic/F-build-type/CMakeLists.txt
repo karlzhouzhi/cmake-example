@@ -17,3 +17,6 @@ project (build_type)
 
 # Add an executable
 add_executable(cmake_examples_build_type main.cpp)
+
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
